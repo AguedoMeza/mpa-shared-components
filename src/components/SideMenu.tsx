@@ -131,7 +131,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 <button
                   type="button"
                   className="logo-link"
-                  onClick={() => onNavigate ? onNavigate('/') : (window.location.hash = '/')}
+                  onClick={() => window.location.href = 'https://webapplication.mpagroup.mx/#/'}
                   aria-label="Ir al inicio"
                   title="Ir al inicio"
                 >
