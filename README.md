@@ -98,9 +98,12 @@ import type { MenuItem } from 'mpa-shared-components';
 
 ```tsx
 import React from 'react';
+import { HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { NavBar } from 'mpa-shared-components';
 
-function App() {
+const AppContent: React.FC = () => {
+  const navigate = useNavigate();
+  
   const user = {
     given_name: 'Juan',
     family_name: 'Pérez',
@@ -116,13 +119,27 @@ function App() {
     <NavBar 
       user={user} 
       onLogout={handleLogout}
+      onNavigate={navigate}
     >
-      <div>Tu contenido aquí</div>
+      <Routes>
+        <Route path="/" element={<div>Tu contenido aquí</div>} />
+      </Routes>
     </NavBar>
+  );
+};
+
+function App() {
+  return (
+    <HashRouter>
+      <AppContent />
+    </HashRouter>
   );
 }
 
 export default App;
+```
+
+> **Nota importante**: NavBar requiere la prop `onNavigate` para la navegación interna del menú. Debes pasar la función `navigate` de `useNavigate()` dentro del contexto del Router.
 ```
 
 ### Con menú personalizado
