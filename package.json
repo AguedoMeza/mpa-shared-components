@@ -24,9 +24,9 @@
   "author": "MPA Group",
   "license": "ISC",
   "peerDependencies": {
-    "react": "^18.3.1",
+    "react": "^18.0.0 || ^19.0.0",
     "react-bootstrap": "^2.10.10",
-    "react-dom": "^18.3.1",
+    "react-dom": "^18.0.0 || ^19.0.0",
     "react-router-dom": "^6.30.2"
   },
   "devDependencies": {
