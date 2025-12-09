@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import './NavBar.css';
 import SideMenu, { MenuItem } from './SideMenu';
 
@@ -11,6 +10,7 @@ export interface NavBarProps {
   menuItems?: MenuItem[];
   logoUrl?: string;
   systemTitle?: string;
+  onNavigate?: (path: string) => void;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ 
@@ -19,9 +19,9 @@ const NavBar: React.FC<NavBarProps> = ({
   onLogout,
   menuItems,
   logoUrl,
-  systemTitle
+  systemTitle,
+  onNavigate
 }) => {
-  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
@@ -70,7 +70,7 @@ const NavBar: React.FC<NavBarProps> = ({
           menuItems={menuItems}
           logoUrl={logoUrl}
           systemTitle={systemTitle}
-          onNavigate={navigate}
+          onNavigate={onNavigate}
         />
 
         <Navbar 
