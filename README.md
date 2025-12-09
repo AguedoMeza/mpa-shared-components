@@ -265,10 +265,12 @@ interface MenuItem {
 
 Asegúrate de tener instaladas estas dependencias en tu proyecto:
 
-- `react` ^18.0.0
-- `react-dom` ^18.0.0
+- `react` ^18.0.0 o ^19.0.0
+- `react-dom` ^18.0.0 o ^19.0.0
 - `react-bootstrap` ^2.0.0
 - `react-router-dom` ^6.0.0
+
+> **Nota**: El paquete es compatible con React 18 y React 19.
 
 ## Desarrollo
 
