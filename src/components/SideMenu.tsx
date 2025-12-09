@@ -86,6 +86,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
 
   useEffect(() => {
     setUserMenu(menuItems || defaultMenu);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuItems]);
 
   const handleMenuClick = (item: MenuItem) => {

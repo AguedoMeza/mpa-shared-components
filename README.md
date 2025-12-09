@@ -6,21 +6,83 @@ Librería de componentes compartidos para las aplicaciones web de MPA Group.
 
 ### Local (usando npm link)
 
-1. En el directorio `mpa-shared-components`:
+> **Nota importante**: Para evitar conflictos de versiones de React al usar npm link, necesitamos crear enlaces simbólicos para que el paquete use la misma versión de React del proyecto consumidor.
+
+#### Método 1: Usando el script automático (recomendado)
+
 ```bash
+cd mpa-shared-components
 npm install
+./link-to-project.sh /ruta/absoluta/a/tu/proyecto
+```
+
+Por ejemplo:
+```bash
+./link-to-project.sh /home/joseserna/template-front/frontend
+```
+
+Luego en tu proyecto:
+```bash
+cd /home/joseserna/template-front/frontend
+npm link mpa-shared-components
+npm start
+```
+
+#### Método 2: Manual
+
+1. Instala las dependencias en el paquete:
+```bash
+cd mpa-shared-components
+npm install
+```
+
+2. Crea enlaces simbólicos a React del proyecto consumidor:
+```bash
+# Reemplaza /ruta/a/tu/proyecto con la ruta real de tu proyecto
+rm -rf node_modules/react node_modules/react-dom
+ln -s /ruta/a/tu/proyecto/node_modules/react node_modules/react
+ln -s /ruta/a/tu/proyecto/node_modules/react-dom node_modules/react-dom
+```
+
+3. Construye y enlaza el paquete:
+```bash
 npm run build
 npm link
 ```
 
-2. En tu proyecto (ej: `template-front/frontend`):
+4. En tu proyecto (ej: `template-front/frontend`):
 ```bash
 npm link mpa-shared-components
 ```
 
-### Desde repositorio privado (futuro)
+5. Si encuentras errores, limpia el cache de webpack:
 ```bash
-npm install mpa-shared-components
+rm -rf node_modules/.cache
+npm start
+```
+
+**Importante**: Cada vez que cambies algo en `mpa-shared-components`, ejecuta `npm run build` y los cambios se reflejarán automáticamente en tu proyecto vinculado.
+
+### Desde GitHub (Producción)
+
+Para instalar en proyectos de producción, usa la URL del repositorio:
+
+```bash
+npm install git+https://github.com/AguedoMeza/mpa-shared-components.git
+```
+
+O agrega a tu `package.json`:
+```json
+{
+  "dependencies": {
+    "mpa-shared-components": "git+https://github.com/AguedoMeza/mpa-shared-components.git"
+  }
+}
+```
+
+Para instalar una versión específica (tag):
+```bash
+npm install git+https://github.com/AguedoMeza/mpa-shared-components.git#v1.0.0
 ```
 
 ## Uso
