@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Collapse } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import './SideMenu.css';
 
 export interface SideMenuProps {
@@ -10,6 +9,7 @@ export interface SideMenuProps {
   menuItems?: MenuItem[];
   logoUrl?: string;
   systemTitle?: string;
+  onNavigate?: (path: string) => void;
 }
 
 export interface MenuItem {
@@ -29,9 +29,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
   onToggleCollapse,
   menuItems,
   logoUrl = 'https://webapplication.mpagroup.mx/aml/static/media/MPA_Logo_W.4ba3d895c671f7aee8be.png',
-  systemTitle = 'WEB APPLICATIONS'
+  systemTitle = 'WEB APPLICATIONS',
+  onNavigate
 }) => {
-  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<string>('');
   const [userMenu, setUserMenu] = useState<MenuItem[]>([]);
 
@@ -99,13 +99,21 @@ const SideMenu: React.FC<SideMenuProps> = ({
       if (item.path.startsWith('http://') || item.path.startsWith('https://')) {
         window.open(item.path, '_blank', 'noopener,noreferrer');
       } else if (item.path !== '#') {
-        navigate(item.path);
+        if (onNavigate) {
+          onNavigate(item.path);
+        } else {
+          window.location.hash = item.path;
+        }
       }
     }
   };
 
   const handleSubMenuClick = (item: MenuItem) => {
-    navigate(item.path);
+    if (onNavigate) {
+      onNavigate(item.path);
+    } else {
+      window.location.hash = item.path;
+    }
   };
 
   const getFontAwesomeIcon = (iconName: string) => {
@@ -123,7 +131,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 <button
                   type="button"
                   className="logo-link"
-                  onClick={() => navigate('/')}
+                  onClick={() => onNavigate ? onNavigate('/') : (window.location.hash = '/')}
                   aria-label="Ir al inicio"
                   title="Ir al inicio"
                 >
