@@ -63,6 +63,18 @@ npm start
 
 **Importante**: Cada vez que cambies algo en `mpa-shared-components`, ejecuta `npm run build` y los cambios se reflejarán automáticamente en tu proyecto vinculado.
 
+**⚠️ Limitación de npm link**: Si trabajas con múltiples proyectos simultáneamente, necesitas cambiar los symlinks de React cada vez que cambies de proyecto:
+
+```bash
+# Para trabajar con otro proyecto:
+cd mpa-shared-components
+./link-to-project.sh /ruta/a/otro/proyecto
+cd /ruta/a/otro/proyecto
+npm link mpa-shared-components
+```
+
+**Recomendación**: Usa `npm link` solo durante el desarrollo activo del componente. Para uso regular, instala desde GitHub (ver siguiente sección).
+
 ### Desde GitHub (Producción)
 
 Para instalar en proyectos de producción, usa la URL del repositorio:
@@ -84,6 +96,25 @@ Para instalar una versión específica (tag):
 ```bash
 npm install git+https://github.com/AguedoMeza/mpa-shared-components.git#v1.0.0
 ```
+
+#### Actualizar a la última versión
+
+Cuando se publiquen cambios en GitHub:
+
+```bash
+npm update mpa-shared-components
+# o
+npm install git+https://github.com/AguedoMeza/mpa-shared-components.git --force
+```
+
+### ¿Cuándo usar cada método?
+
+| Método | Cuándo usar | Ventajas | Desventajas |
+|--------|-------------|----------|-------------|
+| **npm link** | Desarrollo activo del componente | Cambios en tiempo real | Requiere cambiar symlinks por proyecto |
+| **GitHub** | Uso regular en producción/desarrollo | Sin configuración de symlinks, funciona en todos los proyectos | Requiere push + update para ver cambios |
+
+**Recomendación**: Desarrolla con `npm link`, luego cambia a GitHub cuando el componente esté estable.
 
 ## Uso
 
