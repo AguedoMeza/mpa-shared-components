@@ -128,10 +128,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
           {!isCollapsed ? (
             <>
               <div className="logo-section">
-                <button
-                  type="button"
+                <a
+                  href="https://webapplication.mpagroup.mx/#/"
                   className="logo-link"
-                  onClick={() => window.location.href = 'https://webapplication.mpagroup.mx/#/'}
                   aria-label="Ir al inicio"
                   title="Ir al inicio"
                 >
@@ -142,7 +141,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                     loading="lazy"
                     onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }}
                   />
-                </button>
+                </a>
 
                 <div className="system-title">
                   <h1>{systemTitle}</h1>
