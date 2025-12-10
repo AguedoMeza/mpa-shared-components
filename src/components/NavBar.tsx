@@ -146,6 +146,7 @@ const NavBar: React.FC<NavBarProps> = ({
                 show={showAppSwitcher} 
                 onToggle={(isOpen) => setShowAppSwitcher(isOpen)}
                 className="app-switcher-dropdown"
+                align="end"
               >
                 <Dropdown.Toggle 
                   variant="link" 
@@ -155,7 +156,7 @@ const NavBar: React.FC<NavBarProps> = ({
                   <i className="fa-solid fa-grip" aria-hidden="true"></i>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu className="app-switcher-menu">
+                <Dropdown.Menu className="app-switcher-menu" align="end">
                   <div className="app-switcher-header">
                     <h6>WEB APPLICATIONS</h6>
                   </div>
@@ -166,13 +167,12 @@ const NavBar: React.FC<NavBarProps> = ({
                         href={app.url}
                         className={`app-item ${currentAppId === app.id ? 'active' : ''}`}
                         onClick={(e) => {
-                          if (app.url === '#') {
+                          // Si es la app actual o es un placeholder, no navegar
+                          if (app.url === '#' || currentAppId === app.id) {
                             e.preventDefault();
                           }
                           setShowAppSwitcher(false);
                         }}
-                        target="_blank"
-                        rel="noopener noreferrer"
                       >
                         <div 
                           className="app-icon" 
