@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import './NavBar.css';
 import SideMenu, { MenuItem } from './SideMenu';
+
+export interface AppConfig {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  url: string;
+  color?: string;
+}
 
 export interface NavBarProps {
   children?: React.ReactNode;
@@ -11,6 +20,8 @@ export interface NavBarProps {
   logoUrl?: string;
   systemTitle?: string;
   onNavigate?: (path: string) => void;
+  applications?: AppConfig[];
+  currentAppId?: string;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ 
@@ -20,10 +31,60 @@ const NavBar: React.FC<NavBarProps> = ({
   menuItems,
   logoUrl,
   systemTitle,
-  onNavigate
+  onNavigate,
+  applications,
+  currentAppId
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [showAppSwitcher, setShowAppSwitcher] = useState(false);
+
+  // Aplicaciones por defecto
+  const defaultApplications: AppConfig[] = [
+    {
+      id: 'mpa-whse',
+      name: 'MPA WHSE',
+      description: 'MPA WHSE',
+      icon: 'helmet-safety',
+      url: 'https://webapplication.mpagroup.mx/trabajos-whse/',
+      color: '#FF6B6B'
+    },
+    {
+      id: 'aml',
+      name: 'AML',
+      description: 'Anti-Money Laundering',
+      icon: 'shield-alt',
+      url: 'https://webapplication.mpagroup.mx/aml/',
+      color: '#4ECDC4'
+    },
+    {
+      id: 'mpa-caf',
+      name: 'MPA CAF',
+      description: 'MPA CAF',
+      icon: 'file-invoice',
+      url: 'https://webapplication.mpagroup.mx/mpa-webapp-caf/',
+      color: '#45B7D1'
+    },
+    {
+      id: 'mri-data',
+      name: 'MRI Data Extraction',
+      description: 'MRI Data Extraction',
+      icon: 'database',
+      url: '#',
+      color: '#96CEB4'
+    },
+    {
+      id: 'good-cath',
+      name: 'Good Cath',
+      description: 'Good Cath',
+      icon: 'heart-pulse',
+      url: '#',
+      color: '#FFEAA7'
+    }
+  ];
+
+  const apps = applications || defaultApplications;
+  const currentApp = apps.find(app => app.id === currentAppId);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -80,6 +141,52 @@ const NavBar: React.FC<NavBarProps> = ({
         >
           <Nav className="ms-auto">
             <div className="user-info-header">
+              {/* App Switcher */}
+              <Dropdown 
+                show={showAppSwitcher} 
+                onToggle={(isOpen) => setShowAppSwitcher(isOpen)}
+                className="app-switcher-dropdown"
+              >
+                <Dropdown.Toggle 
+                  variant="link" 
+                  className="app-switcher-toggle"
+                  id="app-switcher-dropdown"
+                >
+                  <i className="fa-solid fa-grip" aria-hidden="true"></i>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="app-switcher-menu">
+                  <div className="app-switcher-header">
+                    <h6>WEB APPLICATIONS</h6>
+                  </div>
+                  <div className="app-grid">
+                    {apps.map((app) => (
+                      <a
+                        key={app.id}
+                        href={app.url}
+                        className={`app-item ${currentAppId === app.id ? 'active' : ''}`}
+                        onClick={(e) => {
+                          if (app.url === '#') {
+                            e.preventDefault();
+                          }
+                          setShowAppSwitcher(false);
+                        }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <div 
+                          className="app-icon" 
+                          style={{ backgroundColor: app.color || '#ff8c42' }}
+                        >
+                          <i className={`fa-solid fa-${app.icon}`}></i>
+                        </div>
+                        <span className="app-name">{app.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+
               <div className="user-details-nav">
                 <span className="user-name">
                   Hola, {showUser.given_name && showUser.family_name ? `${showUser.given_name} ${showUser.family_name}` : (showUser.given_name || showUser.name)}
