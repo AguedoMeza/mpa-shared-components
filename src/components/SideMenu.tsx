@@ -133,6 +133,10 @@ const SideMenu: React.FC<SideMenuProps> = ({
                   className="logo-link"
                   aria-label="Ir al inicio"
                   title="Ir al inicio"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.replace('https://webapplication.mpagroup.mx/#/');
+                  }}
                 >
                   <img
                     src={logoUrl}
