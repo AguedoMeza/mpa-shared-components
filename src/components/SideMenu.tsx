@@ -135,7 +135,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
                   title="Ir al inicio"
                   onClick={(e) => {
                     e.preventDefault();
-                    window.location.replace('https://webapplication.mpagroup.mx/#/');
+                    e.stopPropagation();
+                    console.log('Logo clicked - redirecting to home');
+                    window.location.href = 'https://webapplication.mpagroup.mx/#/';
                   }}
                 >
                   <img
