@@ -75,6 +75,41 @@ npm link mpa-shared-components
 
 **Recomendación**: Usa `npm link` solo durante el desarrollo activo del componente. Para uso regular, instala desde GitHub (ver siguiente sección).
 
+#### Método para Windows (PowerShell como Administrador)
+
+Si trabajas en Windows, necesitas ejecutar PowerShell como **Administrador** para crear enlaces simbólicos:
+
+```powershell
+# 1. En la librería (PowerShell como Admin)
+cd C:\ruta\a\mpa-shared-components
+npm install
+npm link
+
+# 2. Eliminar React de la librería
+Remove-Item -Recurse -Force node_modules\react, node_modules\react-dom
+
+# 3. Crear enlaces simbólicos al React del proyecto
+New-Item -ItemType SymbolicLink -Path "node_modules\react" -Target "C:\ruta\a\tu\proyecto\node_modules\react"
+New-Item -ItemType SymbolicLink -Path "node_modules\react-dom" -Target "C:\ruta\a\tu\proyecto\node_modules\react-dom"
+
+# 4. Compilar
+npm run build
+
+# 5. En tu proyecto (PowerShell normal)
+cd C:\ruta\a\tu\proyecto
+npm link mpa-shared-components
+
+# 6. Limpiar caché y ejecutar
+Remove-Item -Recurse -Force node_modules\.cache
+npm start
+```
+
+**Workflow de desarrollo (Windows):**
+- Terminal 1: `cd C:\ruta\a\mpa-shared-components && npm run dev`
+- Terminal 2: `cd C:\ruta\a\tu\proyecto && npm start`
+
+**Alternativa sin permisos de Admin:** Usa WSL (Windows Subsystem for Linux) y ejecuta los comandos bash del Método 1 o 2.
+
 ### Desde GitHub (Producción)
 
 Para instalar en proyectos de producción, usa la URL del repositorio:
@@ -115,6 +150,62 @@ npm install git+https://github.com/AguedoMeza/mpa-shared-components.git --force
 | **GitHub** | Uso regular en producción/desarrollo | Sin configuración de symlinks, funciona en todos los proyectos | Requiere push + update para ver cambios |
 
 **Recomendación**: Desarrolla con `npm link`, luego cambia a GitHub cuando el componente esté estable.
+
+## Flujo de trabajo recomendado
+
+### Desarrollo activo (WSL/Linux)
+
+1. **Terminal 1 - Librería en modo watch:**
+```bash
+cd /home/joseserna/mpa-shared-components
+npm run dev  # Compila automáticamente cuando haces cambios
+```
+
+2. **Terminal 2 - Proyecto de desarrollo:**
+```bash
+cd /home/joseserna/template-front/frontend
+npm link mpa-shared-components
+npm start
+```
+
+3. **Editas código** en `mpa-shared-components` y los cambios se reflejan automáticamente
+
+### Desarrollo activo (Windows)
+
+1. **Terminal 1 - Librería (PowerShell):**
+```powershell
+cd C:\Users\HP\OneDrive\Documentos\mpa-shared-components
+npm run dev
+```
+
+2. **Terminal 2 - Proyecto (PowerShell):**
+```powershell
+cd C:\Users\HP\OneDrive\Documentos\mpa-apps-hub
+npm link mpa-shared-components
+npm start
+```
+
+### Deployment a producción
+
+1. **Commit y push cambios:**
+```bash
+cd /home/joseserna/mpa-shared-components
+git add .
+git commit -m "feat: descripción del cambio"
+git push
+```
+
+2. **Actualizar en proyectos de producción:**
+```bash
+# En cada proyecto que use la librería
+npm install git+https://github.com/AguedoMeza/mpa-shared-components.git --force
+npm run build
+```
+
+3. **En servidor IIS (Windows):**
+   - Copia el nuevo build a la carpeta de IIS
+   - Recicla el Application Pool
+   - Limpia caché del navegador (`Ctrl + Shift + R`)
 
 ## Uso
 
