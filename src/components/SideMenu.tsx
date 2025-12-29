@@ -69,7 +69,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
       menu: 'MRI Data Extraction',
       description: 'MRI Data Extraction',
       icon: 'database',
-      path: '#',
+      path: 'https://webapplication.mpagroup.mx/mpa-fund-etl',
       level: 1,
       order: 4
     },

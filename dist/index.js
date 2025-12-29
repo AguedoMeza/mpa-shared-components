@@ -74,7 +74,7 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
             menu: 'MRI Data Extraction',
             description: 'MRI Data Extraction',
             icon: 'database',
-            path: '#',
+            path: 'https://webapplication.mpagroup.mx/mpa-fund-etl',
             level: 1,
             order: 4
         },
@@ -171,7 +171,7 @@ const NavBar = ({ children, user, onLogout, menuItems, logoUrl, systemTitle, onN
             name: 'MRI Data Extraction',
             description: 'MRI Data Extraction',
             icon: 'database',
-            url: '#',
+            url: 'https://webapplication.mpagroup.mx/mpa-fund-etl',
             color: '#96CEB4'
         },
         {

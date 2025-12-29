@@ -70,7 +70,7 @@ const NavBar: React.FC<NavBarProps> = ({
       name: 'MRI Data Extraction',
       description: 'MRI Data Extraction',
       icon: 'database',
-      url: '#',
+      url: 'https://webapplication.mpagroup.mx/mpa-fund-etl',
       color: '#96CEB4'
     },
     {
