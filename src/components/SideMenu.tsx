@@ -78,7 +78,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
       menu: 'Good Cath',
       description: 'Good Cath',
       icon: 'heart-pulse',
-      path: '#',
+      path: 'https://webapplication.mpagroup.mx/good-catch/#/admin',
       level: 1,
       order: 5
     }

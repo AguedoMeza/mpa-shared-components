@@ -78,7 +78,7 @@ const NavBar: React.FC<NavBarProps> = ({
       name: 'Good Cath',
       description: 'Good Cath',
       icon: 'heart-pulse',
-      url: '#',
+      url: 'https://webapplication.mpagroup.mx/good-catch/#/admin',
       color: '#FFEAA7'
     }
   ];
