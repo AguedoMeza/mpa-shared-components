@@ -83,7 +83,7 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
             menu: 'Good Cath',
             description: 'Good Cath',
             icon: 'heart-pulse',
-            path: '#',
+            path: 'https://webapplication.mpagroup.mx/good-catch/#/admin',
             level: 1,
             order: 5
         }
@@ -179,7 +179,7 @@ const NavBar = ({ children, user, onLogout, menuItems, logoUrl, systemTitle, onN
             name: 'Good Cath',
             description: 'Good Cath',
             icon: 'heart-pulse',
-            url: '#',
+            url: 'https://webapplication.mpagroup.mx/good-catch/#/admin',
             color: '#FFEAA7'
         }
     ];
