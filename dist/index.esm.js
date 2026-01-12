@@ -103,7 +103,13 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
                     onNavigate(item.path);
                 }
                 else {
-                    window.location.href = item.path;
+                    // Si es una URL absoluta, navega directo; si es relativa, usa location.hash
+                    if (/^https?:\/\//.test(item.path)) {
+                        window.location.href = item.path;
+                    }
+                    else {
+                        window.location.hash = item.path;
+                    }
                 }
             }
         }
