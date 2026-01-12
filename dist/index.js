@@ -102,7 +102,13 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
         else {
             if (item.path !== '#') {
                 if (onNavigate) {
-                    onNavigate(item.path);
+                    // Si el path es absoluto, navega fuera de la SPA
+                    if (/^https?:\/\//.test(item.path)) {
+                        window.location.href = item.path;
+                    }
+                    else {
+                        onNavigate(item.path);
+                    }
                 }
                 else {
                     // Si es una URL absoluta, navega directo; si es relativa, usa location.hash
@@ -118,10 +124,20 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
     };
     const handleSubMenuClick = (item) => {
         if (onNavigate) {
-            onNavigate(item.path);
+            if (/^https?:\/\//.test(item.path)) {
+                window.location.href = item.path;
+            }
+            else {
+                onNavigate(item.path);
+            }
         }
         else {
-            window.location.hash = item.path;
+            if (/^https?:\/\//.test(item.path)) {
+                window.location.href = item.path;
+            }
+            else {
+                window.location.hash = item.path;
+            }
         }
     };
     const getFontAwesomeIcon = (iconName) => {

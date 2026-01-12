@@ -98,7 +98,12 @@ const SideMenu: React.FC<SideMenuProps> = ({
     } else {
       if (item.path !== '#') {
         if (onNavigate) {
-          onNavigate(item.path);
+          // Si el path es absoluto, navega fuera de la SPA
+          if (/^https?:\/\//.test(item.path)) {
+            window.location.href = item.path;
+          } else {
+            onNavigate(item.path);
+          }
         } else {
           // Si es una URL absoluta, navega directo; si es relativa, usa location.hash
           if (/^https?:\/\//.test(item.path)) {
@@ -113,9 +118,17 @@ const SideMenu: React.FC<SideMenuProps> = ({
 
   const handleSubMenuClick = (item: MenuItem) => {
     if (onNavigate) {
-      onNavigate(item.path);
+      if (/^https?:\/\//.test(item.path)) {
+        window.location.href = item.path;
+      } else {
+        onNavigate(item.path);
+      }
     } else {
-      window.location.hash = item.path;
+      if (/^https?:\/\//.test(item.path)) {
+        window.location.href = item.path;
+      } else {
+        window.location.hash = item.path;
+      }
     }
   };
 
