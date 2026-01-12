@@ -98,15 +98,12 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
             setActiveMenu(activeMenu === item.id ? '' : item.id);
         }
         else {
-            if (item.path.startsWith('http://') || item.path.startsWith('https://')) {
-                window.open(item.path, '_blank', 'noopener,noreferrer');
-            }
-            else if (item.path !== '#') {
+            if (item.path !== '#') {
                 if (onNavigate) {
                     onNavigate(item.path);
                 }
                 else {
-                    window.location.hash = item.path;
+                    window.location.href = item.path;
                 }
             }
         }
