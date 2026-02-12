@@ -1,6 +1,7 @@
-import { UserAppsResponse, ApiResponse } from '../types/appTypes';
+import { AppListResponse, UserAppsResponse, ApiResponse } from '../types/appTypes';
 declare class AppsService {
     private buildErrorMessage;
+    getAllApps(): Promise<ApiResponse<AppListResponse>>;
     getUserAppsByEmail(userEmail: string): Promise<ApiResponse<UserAppsResponse>>;
 }
 export declare const appsService: AppsService;

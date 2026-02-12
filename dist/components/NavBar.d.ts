@@ -19,10 +19,6 @@ export interface NavBarProps {
     onNavigate?: (path: string) => void;
     applications?: AppConfig[];
     currentAppId?: string;
-    /** IDs de apps deshabilitadas manualmente (alternativa al backend) */
-    disabledAppIds?: string[];
-    /** Si es true, obtiene las apps desde el backend en lugar de usar las por defecto */
-    fetchAppsFromBackend?: boolean;
 }
 declare const NavBar: React.FC<NavBarProps>;
 export default NavBar;
