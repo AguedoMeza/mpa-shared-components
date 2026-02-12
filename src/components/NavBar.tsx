@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import './NavBar.css';
 import SideMenu, { MenuItem } from './SideMenu';
+import { appsService } from '../services/appsService';
+import { App as BackendApp } from '../types/appTypes';
 
 export interface AppConfig {
   id: string;
@@ -22,6 +24,10 @@ export interface NavBarProps {
   onNavigate?: (path: string) => void;
   applications?: AppConfig[];
   currentAppId?: string;
+  /** IDs de apps deshabilitadas manualmente (alternativa al backend) */
+  disabledAppIds?: string[];
+  /** Si es true, obtiene las apps desde el backend en lugar de usar las por defecto */
+  fetchAppsFromBackend?: boolean;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ 
@@ -33,11 +39,16 @@ const NavBar: React.FC<NavBarProps> = ({
   systemTitle,
   onNavigate,
   applications,
-  currentAppId
+  currentAppId,
+  disabledAppIds = [],
+  fetchAppsFromBackend = false
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showAppSwitcher, setShowAppSwitcher] = useState(false);
+  const [enabledAppIds, setEnabledAppIds] = useState<string[]>([]);
+  const [backendApps, setBackendApps] = useState<AppConfig[]>([]);
+  const [loadingApps, setLoadingApps] = useState(false);
 
   // Aplicaciones por defecto
   const defaultApplications: AppConfig[] = [
@@ -83,8 +94,25 @@ const NavBar: React.FC<NavBarProps> = ({
     }
   ];
 
-  const apps = applications || defaultApplications;
+  const apps = fetchAppsFromBackend && backendApps.length > 0 
+    ? backendApps 
+    : (applications || defaultApplications);
   const currentApp = apps.find(app => app.id === currentAppId);
+
+  // Determinar qué apps están deshabilitadas
+  const getDisabledApps = (): string[] => {
+    // Si hay disabledAppIds manual, usarlo
+    if (disabledAppIds.length > 0) {
+      return disabledAppIds;
+    }
+    // Si tenemos enabledAppIds del backend, deshabilitar las que no estén en la lista
+    if (enabledAppIds.length > 0) {
+      return apps.filter(app => !enabledAppIds.includes(app.id)).map(app => app.id);
+    }
+    return [];
+  };
+
+  const disabledApps = getDisabledApps();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -103,6 +131,59 @@ const NavBar: React.FC<NavBarProps> = ({
       setIsSidebarCollapsed(JSON.parse(savedState));
     }
   }, []);
+
+  // Consultar backend para obtener apps habilitadas del usuario
+  useEffect(() => {
+    const fetchUserApps = async () => {
+      if (!user) return;
+      
+      // Intentar obtener el email del usuario (soporta diferentes estructuras)
+      const userEmail = user.email || user.mail || user.preferred_username;
+      if (!userEmail) {
+        console.warn('NavBar: No se pudo determinar el email del usuario');
+        return;
+      }
+
+      setLoadingApps(true);
+      try {
+        const response = await appsService.getUserAppsByEmail(userEmail);
+
+        if (response.success && response.data) {
+          // Extraer IDs de apps habilitadas
+          const enabledIds = response.data.apps
+            .filter((app: BackendApp) => app.visible && app.activo)
+            .map((app: BackendApp) => app.app_id);
+          
+          setEnabledAppIds(enabledIds);
+
+          // Si fetchAppsFromBackend está activo, convertir las apps del backend al formato del switcher
+          if (fetchAppsFromBackend) {
+            const convertedApps: AppConfig[] = response.data.apps
+              .filter((app: BackendApp) => app.visible && app.activo)
+              .sort((a: BackendApp, b: BackendApp) => a.orden - b.orden)
+              .map((app: BackendApp) => ({
+                id: app.app_id,
+                name: app.nombre,
+                description: app.descripcion || app.nombre,
+                icon: app.icono || 'cube',
+                url: app.url,
+                color: app.color || '#ff8c42'
+              }));
+            
+            setBackendApps(convertedApps);
+          }
+        } else {
+          console.warn('NavBar: Error al obtener apps del usuario:', response.error);
+        }
+      } catch (error) {
+        console.error('NavBar: Error al consultar apps del usuario:', error);
+      } finally {
+        setLoadingApps(false);
+      }
+    };
+
+    fetchUserApps();
+  }, [user, fetchAppsFromBackend]);
 
   const handleToggleSidebar = () => {
     const newState = !isSidebarCollapsed;
@@ -161,28 +242,38 @@ const NavBar: React.FC<NavBarProps> = ({
                     <h6>WEB APPLICATIONS</h6>
                   </div>
                   <div className="app-grid">
-                    {apps.map((app) => (
-                      <a
-                        key={app.id}
-                        href={app.url}
-                        className={`app-item ${currentAppId === app.id ? 'active' : ''}`}
-                        onClick={(e) => {
-                          // Si es la app actual o es un placeholder, no navegar
-                          if (app.url === '#' || currentAppId === app.id) {
-                            e.preventDefault();
-                          }
-                          setShowAppSwitcher(false);
-                        }}
-                      >
-                        <div 
-                          className="app-icon" 
-                          style={{ backgroundColor: app.color || '#ff8c42' }}
+                    {apps.map((app) => {
+                      const isDisabled = disabledApps.includes(app.id);
+                      return (
+                        <a
+                          key={app.id}
+                          href={isDisabled ? undefined : app.url}
+                          className={`app-item ${currentAppId === app.id ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`}
+                          onClick={(e) => {
+                            // Si está deshabilitada, no navegar
+                            if (isDisabled) {
+                              e.preventDefault();
+                              return;
+                            }
+                            // Si es la app actual o es un placeholder, no navegar
+                            if (app.url === '#' || currentAppId === app.id) {
+                              e.preventDefault();
+                            }
+                            setShowAppSwitcher(false);
+                          }}
+                          title={isDisabled ? 'No tienes acceso a esta aplicación' : app.description}
                         >
-                          <i className={`fa-solid fa-${app.icon}`}></i>
-                        </div>
-                        <span className="app-name">{app.name}</span>
-                      </a>
-                    ))}
+                          <div 
+                            className="app-icon" 
+                            style={{ backgroundColor: isDisabled ? '#3a3a3a' : (app.color || '#ff8c42') }}
+                          >
+                            <i className={`fa-solid fa-${app.icon}`}></i>
+                            {isDisabled && <i className="fa-solid fa-lock disabled-lock"></i>}
+                          </div>
+                          <span className="app-name">{app.name}</span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </Dropdown.Menu>
               </Dropdown>

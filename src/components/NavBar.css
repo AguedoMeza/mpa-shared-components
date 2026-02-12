@@ -247,6 +247,45 @@
   font-weight: 600;
 }
 
+/* Disabled Apps Styles */
+.app-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.app-item.disabled:hover {
+  background: transparent;
+  transform: none;
+}
+
+.app-item.disabled .app-icon {
+  background-color: #3a3a3a !important;
+  position: relative;
+}
+
+.app-item.disabled:hover .app-icon {
+  transform: none;
+}
+
+.app-item.disabled .app-name {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.app-item.disabled:hover .app-name {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.disabled-lock {
+  position: absolute;
+  font-size: 0.7rem;
+  bottom: -2px;
+  right: -2px;
+  background: #1a1a1a;
+  border-radius: 50%;
+  padding: 3px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .top-navbar {
