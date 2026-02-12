@@ -85,7 +85,7 @@ const NavBar: React.FC<NavBarProps> = ({
       color: '#96CEB4'
     },
     {
-      id: 'good-cath',
+      id: 'good-catch',
       name: 'Good Cath',
       description: 'Good Cath',
       icon: 'heart-pulse',
@@ -153,6 +153,9 @@ const NavBar: React.FC<NavBarProps> = ({
           const enabledIds = response.data.apps
             .filter((app: BackendApp) => app.visible && app.activo)
             .map((app: BackendApp) => app.app_id);
+          
+          console.log('🔍 NavBar: Apps habilitadas del backend:', enabledIds);
+          console.log('🔍 NavBar: Apps por defecto:', defaultApplications.map(a => a.id));
           
           setEnabledAppIds(enabledIds);
 
