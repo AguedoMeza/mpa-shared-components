@@ -1,0 +1,1 @@
+{"version":3,"file":"appsService.d.ts","sourceRoot":"","sources":["../../src/services/appsService.ts"],"names":[],"mappings":"AAAA,OAAO,EAAO,gBAAgB,EAAE,WAAW,EAAE,MAAM,mBAAmB,CAAC;AAKvE,cAAM,WAAW;IACf,OAAO,CAAC,iBAAiB;IAUnB,kBAAkB,CAAC,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,WAAW,CAAC,gBAAgB,CAAC,CAAC;CAyCpF;AAED,eAAO,MAAM,WAAW,aAAoB,CAAC;AAC7C,eAAe,WAAW,CAAC"}
