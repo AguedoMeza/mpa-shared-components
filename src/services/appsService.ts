@@ -1,4 +1,4 @@
-import { App, UserAppsResponse, ApiResponse } from '../types/appTypes';
+import { AppListResponse, UserAppsResponse, ApiResponse } from '../types/appTypes';
 
 // URL fija del backend de apps
 const API_BASE_URL = 'https://webapplication.mpagroup.mx/mpa-apps-hub-servicios';
@@ -12,6 +12,40 @@ class AppsService {
       return 'No se pudo conectar con el servidor.';
     }
     return error.message || defaultMessage;
+  }
+
+  async getAllApps(): Promise<ApiResponse<AppListResponse>> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/apps`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw {
+          response: {
+            status: response.status,
+            data: errorData,
+          },
+        };
+      }
+
+      const data: AppListResponse = await response.json();
+
+      return {
+        success: true,
+        data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: this.buildErrorMessage(error, 'Error al obtener el catalogo de apps'),
+      };
+    }
   }
 
   async getUserAppsByEmail(userEmail: string): Promise<ApiResponse<UserAppsResponse>> {

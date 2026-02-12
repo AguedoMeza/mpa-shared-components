@@ -24,10 +24,6 @@ export interface NavBarProps {
   onNavigate?: (path: string) => void;
   applications?: AppConfig[];
   currentAppId?: string;
-  /** IDs de apps deshabilitadas manualmente (alternativa al backend) */
-  disabledAppIds?: string[];
-  /** Si es true, obtiene las apps desde el backend en lugar de usar las por defecto */
-  fetchAppsFromBackend?: boolean;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ 
@@ -39,75 +35,22 @@ const NavBar: React.FC<NavBarProps> = ({
   systemTitle,
   onNavigate,
   applications,
-  currentAppId,
-  disabledAppIds = [],
-  fetchAppsFromBackend = false
+  currentAppId
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showAppSwitcher, setShowAppSwitcher] = useState(false);
-  const [enabledAppIds, setEnabledAppIds] = useState<string[]>([]);
-  const [backendApps, setBackendApps] = useState<AppConfig[]>([]);
+  const [allApps, setAllApps] = useState<AppConfig[]>([]);
+  const [allowedAppIds, setAllowedAppIds] = useState<string[]>([]);
   const [loadingApps, setLoadingApps] = useState(false);
 
-  // Aplicaciones por defecto
-  const defaultApplications: AppConfig[] = [
-    {
-      id: 'mpa-whse',
-      name: 'MPA WHSE',
-      description: 'MPA WHSE',
-      icon: 'helmet-safety',
-      url: 'https://webapplication.mpagroup.mx/trabajos-whse/',
-      color: '#FF6B6B'
-    },
-    {
-      id: 'aml',
-      name: 'AML',
-      description: 'Anti-Money Laundering',
-      icon: 'shield-alt',
-      url: 'https://webapplication.mpagroup.mx/aml/',
-      color: '#4ECDC4'
-    },
-    {
-      id: 'mpa-caf',
-      name: 'MPA CAF',
-      description: 'MPA CAF',
-      icon: 'file-invoice',
-      url: 'https://webapplication.mpagroup.mx/mpa-webapp-caf/',
-      color: '#45B7D1'
-    },
-    {
-      id: 'mri-data',
-      name: 'MRI Data Extraction',
-      description: 'MRI Data Extraction',
-      icon: 'database',
-      url: 'https://webapplication.mpagroup.mx/mpa-fund-etl',
-      color: '#96CEB4'
-    },
-    {
-      id: 'good-catch',
-      name: 'Good Cath',
-      description: 'Good Cath',
-      icon: 'heart-pulse',
-      url: 'https://webapplication.mpagroup.mx/good-catch/#/admin',
-      color: '#FFEAA7'
-    }
-  ];
-
-  const apps = fetchAppsFromBackend && backendApps.length > 0 
-    ? backendApps 
-    : (applications || defaultApplications);
+  const apps = applications || allApps;
   const currentApp = apps.find(app => app.id === currentAppId);
 
   // Determinar qué apps están deshabilitadas
   const getDisabledApps = (): string[] => {
-    // Si hay disabledAppIds manual, usarlo
-    if (disabledAppIds.length > 0) {
-      return disabledAppIds;
-    }
-    // Si tenemos enabledAppIds del backend, deshabilitar las que no estén en la lista
-    if (enabledAppIds.length > 0) {
-      return apps.filter(app => !enabledAppIds.includes(app.id)).map(app => app.id);
+    if (allowedAppIds.length > 0) {
+      return apps.filter(app => !allowedAppIds.includes(app.id)).map(app => app.id);
     }
     return [];
   };
@@ -132,9 +75,9 @@ const NavBar: React.FC<NavBarProps> = ({
     }
   }, []);
 
-  // Consultar backend para obtener apps habilitadas del usuario
+  // Consultar backend para obtener catalogo y apps habilitadas del usuario
   useEffect(() => {
-    const fetchUserApps = async () => {
+    const fetchApps = async () => {
       if (!user) return;
       
       // Intentar obtener el email del usuario (soporta diferentes estructuras)
@@ -146,47 +89,49 @@ const NavBar: React.FC<NavBarProps> = ({
 
       setLoadingApps(true);
       try {
-        const response = await appsService.getUserAppsByEmail(userEmail);
+        const [allAppsResponse, userAppsResponse] = await Promise.all([
+          appsService.getAllApps(),
+          appsService.getUserAppsByEmail(userEmail),
+        ]);
 
-        if (response.success && response.data) {
-          // Extraer IDs de apps habilitadas
-          const enabledIds = response.data.apps
+        if (allAppsResponse.success && allAppsResponse.data) {
+          const mappedAllApps: AppConfig[] = allAppsResponse.data.aplicaciones
+            .filter((app) => app.visible && app.activo)
+            .sort((a, b) => a.orden - b.orden)
+            .map((app) => ({
+              id: app.app_id,
+              name: app.nombre,
+              description: app.descripcion || app.nombre,
+              icon: app.icono || 'cube',
+              url: app.url,
+              color: app.color || '#ff8c42',
+            }));
+          setAllApps(mappedAllApps);
+        } else {
+          console.warn('NavBar: Error al obtener catalogo de apps:', allAppsResponse.error);
+          setAllApps([]);
+        }
+
+        if (userAppsResponse.success && userAppsResponse.data) {
+          const ids = userAppsResponse.data.apps
             .filter((app: BackendApp) => app.visible && app.activo)
             .map((app: BackendApp) => app.app_id);
-          
-          console.log('🔍 NavBar: Apps habilitadas del backend:', enabledIds);
-          console.log('🔍 NavBar: Apps por defecto:', defaultApplications.map(a => a.id));
-          
-          setEnabledAppIds(enabledIds);
-
-          // Si fetchAppsFromBackend está activo, convertir las apps del backend al formato del switcher
-          if (fetchAppsFromBackend) {
-            const convertedApps: AppConfig[] = response.data.apps
-              .filter((app: BackendApp) => app.visible && app.activo)
-              .sort((a: BackendApp, b: BackendApp) => a.orden - b.orden)
-              .map((app: BackendApp) => ({
-                id: app.app_id,
-                name: app.nombre,
-                description: app.descripcion || app.nombre,
-                icon: app.icono || 'cube',
-                url: app.url,
-                color: app.color || '#ff8c42'
-              }));
-            
-            setBackendApps(convertedApps);
-          }
+          setAllowedAppIds(ids);
         } else {
-          console.warn('NavBar: Error al obtener apps del usuario:', response.error);
+          console.warn('NavBar: Error al obtener apps del usuario:', userAppsResponse.error);
+          setAllowedAppIds([]);
         }
       } catch (error) {
-        console.error('NavBar: Error al consultar apps del usuario:', error);
+        console.error('NavBar: Error al consultar apps:', error);
+        setAllApps([]);
+        setAllowedAppIds([]);
       } finally {
         setLoadingApps(false);
       }
     };
 
-    fetchUserApps();
-  }, [user, fetchAppsFromBackend]);
+    fetchApps();
+  }, [user]);
 
   const handleToggleSidebar = () => {
     const newState = !isSidebarCollapsed;
