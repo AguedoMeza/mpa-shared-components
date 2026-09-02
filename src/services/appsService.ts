@@ -1,7 +1,9 @@
 import { AppListResponse, UserAppsResponse, ApiResponse } from '../types/appTypes';
 
 // URL fija del backend de apps
-const API_BASE_URL = 'https://webapplication.mpagroup.mx/mpa-apps-hub-servicios';
+// Mismo origen que el front: IIS publica el backend del hub bajo esta ruta,
+// tanto en produccion como en el ambiente local de QA.
+const API_BASE_URL = '/mpa-apps-hub-servicios';
 
 class AppsService {
   private buildErrorMessage(error: any, defaultMessage: string): string {

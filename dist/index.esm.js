@@ -37,21 +37,18 @@ styleInject(css_248z);
 
 const ORIGEN_PRODUCTIVO = 'https://webapplication.mpagroup.mx';
 /**
- * Reescribe las ligas productivas al origen actual cuando la app se sirve desde
- * localhost (ambiente de QA local, donde las apps viven bajo http://localhost).
+ * Convierte una liga absoluta al dominio productivo en una ruta relativa.
  *
- * Fuera de localhost devuelve la URL intacta, de modo que en produccion el
- * comportamiento es exactamente el de siempre.
+ * Todas las apps viven bajo el mismo origen (IIS las publica por ruta), asi que
+ * "https://webapplication.mpagroup.mx/aml/" y "/aml/" apuntan al mismo lugar en
+ * produccion. Dejar la ruta relativa hace que la misma liga funcione tambien en
+ * localhost, por IP o por nombre de maquina, sin resolver hostnames.
  */
 const resolverUrlApp = (url) => {
     if (!url)
         return '';
-    const esLocal = typeof window !== 'undefined' &&
-        ['localhost', '127.0.0.1'].includes(window.location.hostname);
-    if (!esLocal)
-        return url;
     return url.startsWith(ORIGEN_PRODUCTIVO)
-        ? window.location.origin + url.slice(ORIGEN_PRODUCTIVO.length)
+        ? url.slice(ORIGEN_PRODUCTIVO.length) || '/'
         : url;
 };
 
@@ -178,7 +175,9 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
 };
 
 // URL fija del backend de apps
-const API_BASE_URL = 'https://webapplication.mpagroup.mx/mpa-apps-hub-servicios';
+// Mismo origen que el front: IIS publica el backend del hub bajo esta ruta,
+// tanto en produccion como en el ambiente local de QA.
+const API_BASE_URL = '/mpa-apps-hub-servicios';
 class AppsService {
     buildErrorMessage(error, defaultMessage) {
         if (error.response) {
