@@ -4,6 +4,7 @@ import './NavBar.css';
 import SideMenu, { MenuItem } from './SideMenu';
 import { appsService } from '../services/appsService';
 import { App as BackendApp } from '../types/appTypes';
+import { resolverUrlApp } from '../utils/urls';
 
 export interface AppConfig {
   id: string;
@@ -195,7 +196,7 @@ const NavBar: React.FC<NavBarProps> = ({
                       return (
                         <a
                           key={app.id}
-                          href={isDisabled ? undefined : app.url}
+                          href={isDisabled ? undefined : resolverUrlApp(app.url)}
                           className={`app-item ${currentAppId === app.id ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`}
                           onClick={(e) => {
                             // Si está deshabilitada, no navegar

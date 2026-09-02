@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Collapse } from 'react-bootstrap';
 import './SideMenu.css';
+import { resolverUrlApp } from '../utils/urls';
 
 export interface SideMenuProps {
   user: any;
@@ -97,17 +98,19 @@ const SideMenu: React.FC<SideMenuProps> = ({
       setActiveMenu(activeMenu === item.id ? '' : item.id);
     } else {
       if (item.path !== '#') {
+        // En QA local las ligas productivas se reescriben al origen actual
+        const destino = resolverUrlApp(item.path);
         if (onNavigate) {
           // Si el path es absoluto, navega fuera de la SPA
           if (/^https?:\/\//.test(item.path)) {
-            window.location.href = item.path;
+            window.location.href = destino;
           } else {
             onNavigate(item.path);
           }
         } else {
           // Si es una URL absoluta, navega directo; si es relativa, usa location.hash
           if (/^https?:\/\//.test(item.path)) {
-            window.location.href = item.path;
+            window.location.href = destino;
           } else {
             window.location.hash = item.path;
           }
@@ -117,15 +120,17 @@ const SideMenu: React.FC<SideMenuProps> = ({
   };
 
   const handleSubMenuClick = (item: MenuItem) => {
+    // En QA local las ligas productivas se reescriben al origen actual
+    const destino = resolverUrlApp(item.path);
     if (onNavigate) {
       if (/^https?:\/\//.test(item.path)) {
-        window.location.href = item.path;
+        window.location.href = destino;
       } else {
         onNavigate(item.path);
       }
     } else {
       if (/^https?:\/\//.test(item.path)) {
-        window.location.href = item.path;
+        window.location.href = destino;
       } else {
         window.location.hash = item.path;
       }
@@ -145,7 +150,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
             <>
               <div className="logo-section">
                 <a
-                  href="https://webapplication.mpagroup.mx/#/"
+                  href={resolverUrlApp('https://webapplication.mpagroup.mx/#/')}
                   className="logo-link"
                   aria-label="Ir al inicio"
                   title="Ir al inicio"
@@ -153,11 +158,11 @@ const SideMenu: React.FC<SideMenuProps> = ({
                     e.preventDefault();
                     e.stopPropagation();
                     console.log('Logo clicked - redirecting to home');
-                    window.location.href = 'https://webapplication.mpagroup.mx/#/';
+                    window.location.href = resolverUrlApp('https://webapplication.mpagroup.mx/#/');
                   }}
                 >
                   <img
-                    src={logoUrl}
+                    src={resolverUrlApp(logoUrl)}
                     alt="Logo"
                     className="logo-img"
                     loading="lazy"

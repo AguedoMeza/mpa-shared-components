@@ -37,6 +37,26 @@ styleInject(css_248z$1);
 var css_248z = ":root {\n  --nav-font: 0.875rem; /* 14px */\n  --nav-icon: 1.375rem; /* 22px */\n  --nav-gap: 0.875rem; /* 14px */\n  --nav-x: 0.5rem; /* 8px */\n  --nav-y: 0.5rem; /* 8px */\n\n  --nav-sub-font: 0.90625rem; /* 14.5px */\n  --nav-sub-icon: 1.125rem; /* 18px */\n  --nav-sub-indent: 3.5rem; /* 56px */\n  --nav-y-sub: 0.75rem; /* 12px */\n\n  --nav-row-gap: 0.25rem; /* 4px */\n  --brand-orange: #ff8c42;\n  \n  /* Variables para el sidebar */\n  --sidebar-width: 280px;\n  --sidebar-collapsed-width: 70px;\n  --sidebar-transition: 0.3s ease;\n}\n\n/* SideMenu Styles - Fixed Sidebar */\n.sidebar-fixed {\n  position: fixed;\n  left: 0;\n  top: 0;\n  height: 100vh;\n  width: var(--sidebar-width);\n  z-index: 1000;\n  transition: width var(--sidebar-transition);\n}\n\n.sidebar-fixed.collapsed {\n  width: var(--sidebar-collapsed-width);\n}\n\n.sidebar-content {\n  height: 100vh;\n  background: linear-gradient(180deg, #313131 0%, #262626 100%);\n  color: white;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  overflow-x: hidden;\n  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);\n}\n\n/* Header */\n.sidebar-header {\n  padding: 1.5625rem 1.25rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.1);\n  min-height: 5rem;\n  display: flex;\n  align-items: flex-start;\n  flex-direction: column;\n  position: relative;\n  transition: all 0.3s ease;\n}\n\n.sidebar-fixed.collapsed .sidebar-header {\n  padding: 1rem;\n  min-height: 4rem;\n  align-items: center;\n  justify-content: center;\n}\n\n.logo-section {\n  display: flex;\n  align-items: flex-start;\n  gap: 12px;\n  flex-direction: column;\n  width: 100%;\n}\n\n.logo {\n  width: 50px;\n  height: 50px;\n  background: #ff8c42;\n  border-radius: 10px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: white;\n  font-weight: bold;\n  font-size: 16px;\n  flex-shrink: 0;\n}\n\n.logo-link {\n  border: 0;\n  background: transparent;\n  padding: 0;\n  cursor: pointer;\n  display: inline-flex;\n  align-items: center;\n}\n\n.logo-img {\n  height: 34px;\n  width: auto;\n  display: block;\n  object-fit: contain;\n  transition: var(--sidebar-transition);\n}\n\n.sidebar-fixed.collapsed .logo-img {\n  height: 28px;\n}\n\n.system-title {\n  opacity: 1;\n  transition: opacity 0.2s ease;\n}\n\n.sidebar-fixed.collapsed .system-title {\n  opacity: 0;\n  display: none;\n}\n\n.system-title h1 {\n  font-size: 18px;\n  font-weight: 600;\n  margin-bottom: 3px;\n  color: white;\n  white-space: nowrap;\n}\n\n.system-title p {\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 12px;\n  margin: 0;\n}\n\n/* Toggle Button */\n.sidebar-toggle {\n  position: absolute;\n  right: 10px;\n  top: 50%;\n  transform: translateY(-50%);\n  background: rgba(255, 140, 66, 0.2);\n  border: 1px solid rgba(255, 140, 66, 0.3);\n  border-radius: 6px;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  color: var(--brand-orange);\n  transition: all 0.2s ease;\n}\n\n/* Toggle Button cuando el sidebar está colapsado - MÁS GRANDE */\n.sidebar-toggle.collapsed {\n  position: static;\n  transform: none;\n  width: 48px;\n  height: 48px;\n  background: rgba(255, 140, 66, 0.25);\n  border: 2px solid rgba(255, 140, 66, 0.4);\n  border-radius: 10px;\n  box-shadow: 0 2px 8px rgba(255, 140, 66, 0.2);\n}\n\n.sidebar-toggle:hover {\n  background: rgba(255, 140, 66, 0.3);\n  transform: translateY(-50%) scale(1.05);\n  box-shadow: 0 2px 8px rgba(255, 140, 66, 0.15);\n}\n\n.sidebar-toggle.collapsed:hover {\n  background: rgba(255, 140, 66, 0.35);\n  transform: scale(1.08);\n  box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);\n}\n\n.sidebar-toggle i {\n  font-size: 14px;\n  transition: transform 0.3s ease;\n}\n\n.sidebar-toggle.collapsed i {\n  font-size: 22px;\n}\n\n/* Navigation */\n.sidebar-nav {\n  padding: 20px 0;\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: var(--nav-row-gap);\n}\n\n.sidebar-nav .nav {\n  --bs-nav-link-padding-x: 0;\n  --bs-nav-link-padding-y: 0;\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  padding: var(--nav-y) var(--nav-x);\n  color: rgba(255, 255, 255, 0.8);\n  text-decoration: none;\n  transition: all 0.3s ease;\n  border: none;\n  background: none;\n  width: 100%;\n  text-align: left;\n  cursor: pointer;\n  font-size: var(--nav-font);\n  border-radius: 0;\n  position: relative;\n}\n\n.nav-item:hover {\n  background: rgba(255, 140, 66, 0.1);\n  padding-left: calc(var(--nav-x) + 0.3125rem); /* +5px */\n  padding-top: var(--nav-y);\n  padding-bottom: var(--nav-y);\n}\n\n.nav-item.active {\n  background: rgba(255, 140, 66, 0.2);\n  border-right: 0.25rem solid #ff8c42;\n}\n\n.nav-icon {\n  margin-right: var(--nav-gap);\n  font-size: var(--nav-icon);\n  width: calc(var(--nav-icon) + 0.25rem); /* +4px para alinear */\n  text-align: center;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n/* Cuando el sidebar está colapsado */\n.sidebar-fixed.collapsed .nav-icon {\n  margin-right: 0;\n  font-size: 1.5rem;\n}\n\n.sidebar-fixed.collapsed .nav-item {\n  justify-content: center;\n  padding: var(--nav-y) 0;\n}\n\n.sidebar-fixed.collapsed .nav-item:hover {\n  padding-left: 0;\n}\n\n.nav-text {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  opacity: 1;\n  transition: opacity 0.2s ease;\n}\n\n.sidebar-fixed.collapsed .nav-text {\n  opacity: 0;\n  width: 0;\n  display: none;\n}\n\n.nav-arrow {\n  margin-left: auto;\n  font-size: 1rem; /* 16px */\n  flex-shrink: 0;\n}\n\n.sidebar-fixed.collapsed .nav-arrow {\n  display: none;\n}\n\n/* Submenu */\n.submenu-container {\n  background: rgba(0, 0, 0, 0.1);\n}\n\n.submenu-item {\n  padding-left: var(--nav-sub-indent) !important;\n  font-size: var(--nav-sub-font);\n  border-right: none;\n  padding-top: var(--nav-y-sub) !important;\n  padding-bottom: var(--nav-y-sub) !important;\n}\n\n.submenu-item:hover {\n  padding-left: calc(var(--nav-sub-indent) + 0.3125rem) !important; /* +5px */\n  background: rgba(255, 140, 66, 0.05);\n  padding-top: var(--nav-y-sub) !important;\n  padding-bottom: var(--nav-y-sub) !important;\n}\n\n.submenu-icon {\n  font-size: var(--nav-sub-icon);\n  margin-right: 0.75rem; /* 12px */\n  width: calc(var(--nav-sub-icon) + 0.125rem); /* +2px */\n}\n\n/* Hover / Activo: naranja */\n.sidebar-nav .nav-item:hover,\n.sidebar-nav .nav-item.active,\n.sidebar-nav .submenu-item:hover,\n.sidebar-nav .submenu-item.active {\n  color: var(--brand-orange) !important;\n}\n\n.sidebar-nav .nav-item:hover .nav-icon,\n.sidebar-nav .nav-item.active .nav-icon,\n.sidebar-nav .nav-item:hover .nav-arrow,\n.sidebar-nav .nav-item.active .nav-arrow,\n.sidebar-nav .submenu-item:hover .submenu-icon,\n.sidebar-nav .submenu-item.active .submenu-icon {\n  color: var(--brand-orange) !important;\n}\n\n/* Transición suave del color */\n.sidebar-nav .nav-item,\n.sidebar-nav .submenu-item,\n.sidebar-nav .nav-icon,\n.sidebar-nav .submenu-icon,\n.sidebar-nav .nav-arrow {\n  transition: color 0.2s ease;\n}\n\n/* Ajustes base para animación suave */\n.nav-icon,\n.nav-text,\n.nav-arrow {\n  transition: transform 0.28s ease, color 0.2s ease;\n}\n\n/* Variable para controlar cuánto se mueve */\n.nav-item {\n  --hover-shift: 0.2rem;\n}\n\n/* Desplazar icono y texto en hover */\n.nav-item:hover .nav-icon,\n.nav-item:hover .nav-text {\n  transform: translateX(var(--hover-shift));\n}\n\n.sidebar-fixed.collapsed .nav-item:hover .nav-icon {\n  transform: translateX(0) scale(1.1);\n}\n\n/* Tooltip para items colapsados */\n.sidebar-fixed.collapsed .nav-item {\n  position: relative;\n}\n\n.sidebar-fixed.collapsed .nav-item::after {\n  content: attr(title);\n  position: absolute;\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  background: #1a1a1a;\n  color: white;\n  padding: 8px 12px;\n  border-radius: 6px;\n  white-space: nowrap;\n  opacity: 0;\n  pointer-events: none;\n  margin-left: 10px;\n  font-size: 0.875rem;\n  transition: opacity 0.2s ease;\n  z-index: 1001;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n}\n\n.sidebar-fixed.collapsed .nav-item:hover::after {\n  opacity: 1;\n}\n\n/* Respeto a reduce motion */\n@media (prefers-reduced-motion: reduce) {\n  .nav-icon,\n  .nav-text,\n  .nav-arrow {\n    transition: none;\n    transform: none !important;\n  }\n}\n\n/* Responsive */\n@media (max-width: 768px) {\n  .sidebar-fixed {\n    transform: translateX(-100%);\n    transition: transform 0.3s ease, width 0.3s ease;\n  }\n\n  .sidebar-fixed.mobile-visible {\n    transform: translateX(0);\n  }\n  \n  .sidebar-toggle {\n    display: none;\n  }\n}\n\n/* Fix for Bootstrap conflicts */\n.sidebar-content .nav-link {\n  color: inherit;\n  padding: var(--nav-y) var(--nav-x);\n}\n\n.sidebar-content .nav-link:hover,\n.sidebar-content .nav-link:focus {\n  color: inherit;\n  text-decoration: none;\n}\n\n@media (min-width: 1200px) {\n  .logo-img {\n    height: 40px;\n  }\n  \n  .sidebar-fixed.collapsed .logo-img {\n    height: 32px;\n  }\n}\n";
 styleInject(css_248z);
 
+const ORIGEN_PRODUCTIVO = 'https://webapplication.mpagroup.mx';
+/**
+ * Reescribe las ligas productivas al origen actual cuando la app se sirve desde
+ * localhost (ambiente de QA local, donde las apps viven bajo http://localhost).
+ *
+ * Fuera de localhost devuelve la URL intacta, de modo que en produccion el
+ * comportamiento es exactamente el de siempre.
+ */
+const resolverUrlApp = (url) => {
+    if (!url)
+        return '';
+    const esLocal = typeof window !== 'undefined' &&
+        ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (!esLocal)
+        return url;
+    return url.startsWith(ORIGEN_PRODUCTIVO)
+        ? window.location.origin + url.slice(ORIGEN_PRODUCTIVO.length)
+        : url;
+};
+
 const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'https://webapplication.mpagroup.mx/aml/static/media/MPA_Logo_W.4ba3d895c671f7aee8be.png', systemTitle = 'WEB APPLICATIONS', onNavigate }) => {
     const [activeMenu, setActiveMenu] = react.useState('');
     const [userMenu, setUserMenu] = react.useState([]);
@@ -101,10 +121,12 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
         }
         else {
             if (item.path !== '#') {
+                // En QA local las ligas productivas se reescriben al origen actual
+                const destino = resolverUrlApp(item.path);
                 if (onNavigate) {
                     // Si el path es absoluto, navega fuera de la SPA
                     if (/^https?:\/\//.test(item.path)) {
-                        window.location.href = item.path;
+                        window.location.href = destino;
                     }
                     else {
                         onNavigate(item.path);
@@ -113,7 +135,7 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
                 else {
                     // Si es una URL absoluta, navega directo; si es relativa, usa location.hash
                     if (/^https?:\/\//.test(item.path)) {
-                        window.location.href = item.path;
+                        window.location.href = destino;
                     }
                     else {
                         window.location.hash = item.path;
@@ -123,9 +145,11 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
         }
     };
     const handleSubMenuClick = (item) => {
+        // En QA local las ligas productivas se reescriben al origen actual
+        const destino = resolverUrlApp(item.path);
         if (onNavigate) {
             if (/^https?:\/\//.test(item.path)) {
-                window.location.href = item.path;
+                window.location.href = destino;
             }
             else {
                 onNavigate(item.path);
@@ -133,7 +157,7 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
         }
         else {
             if (/^https?:\/\//.test(item.path)) {
-                window.location.href = item.path;
+                window.location.href = destino;
             }
             else {
                 window.location.hash = item.path;
@@ -143,12 +167,12 @@ const SideMenu = ({ user, isCollapsed, onToggleCollapse, menuItems, logoUrl = 'h
     const getFontAwesomeIcon = (iconName) => {
         return jsxRuntime.jsx("i", { className: `fa-solid fa-${iconName}` });
     };
-    return (jsxRuntime.jsx("div", { className: `sidebar-fixed ${isCollapsed ? 'collapsed' : ''}`, children: jsxRuntime.jsxs("div", { className: "sidebar-content", children: [jsxRuntime.jsx("div", { className: "sidebar-header", children: !isCollapsed ? (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsxs("div", { className: "logo-section", children: [jsxRuntime.jsx("a", { href: "https://webapplication.mpagroup.mx/#/", className: "logo-link", "aria-label": "Ir al inicio", title: "Ir al inicio", onClick: (e) => {
+    return (jsxRuntime.jsx("div", { className: `sidebar-fixed ${isCollapsed ? 'collapsed' : ''}`, children: jsxRuntime.jsxs("div", { className: "sidebar-content", children: [jsxRuntime.jsx("div", { className: "sidebar-header", children: !isCollapsed ? (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsxs("div", { className: "logo-section", children: [jsxRuntime.jsx("a", { href: resolverUrlApp('https://webapplication.mpagroup.mx/#/'), className: "logo-link", "aria-label": "Ir al inicio", title: "Ir al inicio", onClick: (e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
                                             console.log('Logo clicked - redirecting to home');
-                                            window.location.href = 'https://webapplication.mpagroup.mx/#/';
-                                        }, children: jsxRuntime.jsx("img", { src: logoUrl, alt: "Logo", className: "logo-img", loading: "lazy", onError: (e) => { e.currentTarget.style.opacity = '0'; } }) }), jsxRuntime.jsx("div", { className: "system-title", children: jsxRuntime.jsx("h1", { children: systemTitle }) })] }), jsxRuntime.jsx("button", { className: "sidebar-toggle", onClick: onToggleCollapse, "aria-label": "Contraer men\u00FA", title: "Contraer men\u00FA", children: jsxRuntime.jsx("i", { className: "fa fa-bars", "aria-hidden": "true" }) })] })) : (
+                                            window.location.href = resolverUrlApp('https://webapplication.mpagroup.mx/#/');
+                                        }, children: jsxRuntime.jsx("img", { src: resolverUrlApp(logoUrl), alt: "Logo", className: "logo-img", loading: "lazy", onError: (e) => { e.currentTarget.style.opacity = '0'; } }) }), jsxRuntime.jsx("div", { className: "system-title", children: jsxRuntime.jsx("h1", { children: systemTitle }) })] }), jsxRuntime.jsx("button", { className: "sidebar-toggle", onClick: onToggleCollapse, "aria-label": "Contraer men\u00FA", title: "Contraer men\u00FA", children: jsxRuntime.jsx("i", { className: "fa fa-bars", "aria-hidden": "true" }) })] })) : (
                     /* Toggle Button - Colapsado */
                     jsxRuntime.jsx("button", { className: "sidebar-toggle collapsed", onClick: onToggleCollapse, "aria-label": "Expandir men\u00FA", title: "Expandir men\u00FA", children: jsxRuntime.jsx("i", { className: "fa fa-bars", "aria-hidden": "true" }) })) }), jsxRuntime.jsx("div", { className: "sidebar-nav", children: jsxRuntime.jsx(reactBootstrap.Nav, { className: "flex-column", children: userMenu.map((item) => (jsxRuntime.jsxs("div", { children: [jsxRuntime.jsxs(reactBootstrap.Nav.Link, { className: `nav-item ${activeMenu === item.id ? 'active' : ''}`, onClick: () => handleMenuClick(item), title: isCollapsed ? item.menu : '', children: [jsxRuntime.jsx("span", { className: "nav-icon", children: getFontAwesomeIcon(item.icon) }), !isCollapsed && (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("span", { className: "nav-text", children: item.menu }), item.items && item.items.length > 0 && (jsxRuntime.jsx("span", { className: "nav-arrow", children: activeMenu === item.id ?
                                                         jsxRuntime.jsx("i", { className: "fa-solid fa-chevron-up" }) :
@@ -341,7 +365,7 @@ const NavBar = ({ children, user, onLogout, menuItems, logoUrl, systemTitle, onN
     const showUser = user || { given_name: 'Usuario', family_name: 'Demo', name: 'Usuario Demo' };
     return (jsxRuntime.jsxs("div", { className: "app-container", children: [jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx(SideMenu, { user: showUser, isCollapsed: isSidebarCollapsed, onToggleCollapse: handleToggleSidebar, menuItems: menuItems, logoUrl: logoUrl, systemTitle: systemTitle, onNavigate: onNavigate }), jsxRuntime.jsx(reactBootstrap.Navbar, { bg: "dark", variant: "dark", className: `top-navbar ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`, children: jsxRuntime.jsx(reactBootstrap.Nav, { className: "ms-auto", children: jsxRuntime.jsxs("div", { className: "user-info-header", children: [jsxRuntime.jsxs(reactBootstrap.Dropdown, { show: showAppSwitcher, onToggle: (isOpen) => setShowAppSwitcher(isOpen), className: "app-switcher-dropdown", align: "end", children: [jsxRuntime.jsx(reactBootstrap.Dropdown.Toggle, { variant: "link", className: "app-switcher-toggle", id: "app-switcher-dropdown", children: jsxRuntime.jsx("i", { className: "fa-solid fa-grip", "aria-hidden": "true" }) }), jsxRuntime.jsxs(reactBootstrap.Dropdown.Menu, { className: "app-switcher-menu", align: "end", children: [jsxRuntime.jsx("div", { className: "app-switcher-header", children: jsxRuntime.jsx("h6", { children: "WEB APPLICATIONS" }) }), jsxRuntime.jsx("div", { className: "app-grid", children: apps.map((app) => {
                                                             const isDisabled = disabledApps.includes(app.id);
-                                                            return (jsxRuntime.jsxs("a", { href: isDisabled ? undefined : app.url, className: `app-item ${currentAppId === app.id ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`, onClick: (e) => {
+                                                            return (jsxRuntime.jsxs("a", { href: isDisabled ? undefined : resolverUrlApp(app.url), className: `app-item ${currentAppId === app.id ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`, onClick: (e) => {
                                                                     // Si está deshabilitada, no navegar
                                                                     if (isDisabled) {
                                                                         e.preventDefault();
@@ -359,4 +383,5 @@ const NavBar = ({ children, user, onLogout, menuItems, logoUrl, systemTitle, onN
 exports.NavBar = NavBar;
 exports.SideMenu = SideMenu;
 exports.appsService = appsService;
+exports.resolverUrlApp = resolverUrlApp;
 //# sourceMappingURL=index.js.map
