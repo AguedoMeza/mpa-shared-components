@@ -96,15 +96,14 @@
 }
 
 .logo-img {
-  height: 34px;
-  width: auto;
+  /* Logotipo horizontal (MPA | Una empresa de Fibra MTY): se dimensiona por ancho
+     para no invadir el boton de contraer */
+  width: 190px;
+  max-width: 100%;
+  height: auto;
   display: block;
   object-fit: contain;
   transition: var(--sidebar-transition);
-}
-
-.sidebar-fixed.collapsed .logo-img {
-  height: 28px;
 }
 
 .system-title {
@@ -417,12 +416,4 @@
   text-decoration: none;
 }
 
-@media (min-width: 1200px) {
-  .logo-img {
-    height: 40px;
-  }
-  
-  .sidebar-fixed.collapsed .logo-img {
-    height: 32px;
-  }
-}
+
