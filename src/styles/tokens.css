@@ -1,0 +1,24 @@
+/*
+ * Tokens de identidad MPA | Una empresa de Fibra MTY
+ * Fuente: Brandbook "MPA Una empresa de Fibra MTY" (paleta primaria, secundaria y tipografia).
+ * Cualquier app del ecosistema puede usar estas variables; la libreria las inyecta en :root.
+ */
+:root {
+  /* Primaria */
+  --mpa-azul: #194F90;          /* Pantone 7686 C */
+  --mpa-azul-oscuro: #123A6B;   /* escala del azul para fondos y hover */
+  --mpa-azul-80: #477399;
+  --mpa-azul-40: #A3B9CC;
+  --mpa-gris: #7B868C;          /* Pantone 430 C */
+  --mpa-gris-80: #979999;
+  --mpa-gris-60: #B1B3B3;
+  --mpa-gris-40: #CBCCCC;
+
+  /* Secundaria */
+  --mpa-turquesa: #038080;      /* Pantone 7717 C */
+  --mpa-petroleo: #004650;      /* Pantone 316 C */
+  --mpa-vino: #501115;          /* Pantone 7713 C */
+
+  /* Tipografia institucional */
+  --mpa-fuente: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}

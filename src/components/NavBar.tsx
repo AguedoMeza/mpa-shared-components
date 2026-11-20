@@ -105,7 +105,7 @@ const NavBar: React.FC<NavBarProps> = ({
               description: app.descripcion || app.nombre,
               icon: app.icono || 'cube',
               url: app.url,
-              color: app.color || '#ff8c42',
+              color: app.color || '#194F90',
             }));
           setAllApps(mappedAllApps);
         } else {
@@ -165,8 +165,8 @@ const NavBar: React.FC<NavBarProps> = ({
         />
 
         <Navbar 
-          bg="dark" 
-          variant="dark" 
+          bg="light" 
+          variant="light" 
           className={`top-navbar ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}
         >
           <Nav className="ms-auto">
@@ -214,7 +214,7 @@ const NavBar: React.FC<NavBarProps> = ({
                         >
                           <div 
                             className="app-icon" 
-                            style={{ backgroundColor: isDisabled ? '#3a3a3a' : (app.color || '#ff8c42') }}
+                            style={{ backgroundColor: isDisabled ? '#3a3a3a' : (app.color || '#194F90') }}
                           >
                             <i className={`fa-solid fa-${app.icon}`}></i>
                             {isDisabled && <i className="fa-solid fa-lock disabled-lock"></i>}

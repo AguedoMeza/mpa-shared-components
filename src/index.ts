@@ -1,3 +1,4 @@
+import './styles/tokens.css';
 export { default as NavBar } from './components/NavBar';
 export { default as SideMenu } from './components/SideMenu';
 export type { NavBarProps, AppConfig } from './components/NavBar';

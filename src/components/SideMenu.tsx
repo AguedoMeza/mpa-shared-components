@@ -29,7 +29,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   isCollapsed, 
   onToggleCollapse,
   menuItems,
-  logoUrl = 'https://webapplication.mpagroup.mx/aml/static/media/MPA_Logo_W.4ba3d895c671f7aee8be.png',
+  logoUrl = '/brand/mpa-fibramty-blanco.png',
   systemTitle = 'WEB APPLICATIONS',
   onNavigate
 }) => {
