@@ -159,12 +159,12 @@
 }
 
 .app-switcher-menu {
-  background: var(--mpa-azul-oscuro) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #ffffff !important;
+  border: 1px solid var(--mpa-gris-40) !important;
   border-radius: 12px !important;
   padding: 0 !important;
   min-width: 320px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 8px 32px rgba(18, 58, 107, 0.18) !important;
   margin-top: 0.5rem !important;
   right: 0 !important;
   left: auto !important;
@@ -172,11 +172,11 @@
 
 .app-switcher-header {
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--mpa-gris-40);
 }
 
 .app-switcher-header h6 {
-  color: white;
+  color: var(--mpa-azul);
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
@@ -205,13 +205,13 @@
 }
 
 .app-item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(25, 79, 144, 0.06);
   transform: translateY(-2px);
 }
 
 .app-item.active {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(25, 79, 144, 0.08);
+  border: 1px solid rgba(25, 79, 144, 0.3);
 }
 
 .app-icon {
@@ -231,7 +231,7 @@
 }
 
 .app-name {
-  color: rgba(255, 255, 255, 0.9);
+  color: #333333;
   font-size: 0.75rem;
   text-align: center;
   line-height: 1.2;
@@ -240,11 +240,11 @@
 }
 
 .app-item:hover .app-name {
-  color: white;
+  color: var(--mpa-azul);
 }
 
 .app-item.active .app-name {
-  color: #ffffff;
+  color: var(--mpa-azul);
   font-weight: 600;
 }
 
@@ -260,7 +260,7 @@
 }
 
 .app-item.disabled .app-icon {
-  background-color: var(--mpa-gris) !important;
+  background-color: var(--mpa-gris-40) !important;
   position: relative;
 }
 
@@ -269,11 +269,11 @@
 }
 
 .app-item.disabled .app-name {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--mpa-gris-80);
 }
 
 .app-item.disabled:hover .app-name {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--mpa-gris-80);
 }
 
 .disabled-lock {
@@ -281,10 +281,10 @@
   font-size: 0.7rem;
   bottom: -2px;
   right: -2px;
-  background: var(--mpa-azul-oscuro);
+  background: #ffffff;
   border-radius: 50%;
   padding: 3px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--mpa-gris);
 }
 
 /* Responsive adjustments */
